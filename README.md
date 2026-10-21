@@ -1,8 +1,8 @@
-# Web-Programming
+# Wo ist Titus?
 
 ## Live page
 
-GitHub Pages: https://titus-git-hub.github.io/Web-Programming/
+GitHub Pages: https://titus-git-hub.github.io/
 
 ## Folder structure
 

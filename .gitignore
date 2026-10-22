@@ -1,2 +1,4 @@
 # macOS
 .DS_Store
+# local settings of my editor / Claude Code (not part of the website)
+.claude/

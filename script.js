@@ -22,6 +22,34 @@ if (window.location.hash !== "") {
     markTab(window.location.hash);
 }
 
+/* while scrolling, the tab of the section that is currently under the bars becomes active */
+const sections = document.getElementsByTagName("section");
+
+function markTabOnScroll() {
+    // start with the first section, so the first tab stays active at the top of the page
+    let active = "#" + sections[0].id;
+
+    for (let i = 0; i < sections.length; i++) {
+        // getBoundingClientRect().top = distance from the top of the window to the section
+        // 150px is roughly the height of the navbar plus the tab bar
+        if (sections[i].getBoundingClientRect().top < 150) {
+            active = "#" + sections[i].id;
+        }
+    }
+
+    // the last section can be too short to ever reach the bars,
+    // so when the page is scrolled to the very bottom it always wins
+    if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 2) {
+        active = "#" + sections[sections.length - 1].id;
+    }
+
+    markTab(active);
+}
+
+// the start page has no sections, so this only runs on the sub pages
+if (sections.length > 0) {
+    window.addEventListener("scroll", markTabOnScroll);
+}
 
 /* ---------- 2. Popups ---------- */
 

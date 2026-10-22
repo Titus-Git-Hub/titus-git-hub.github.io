@@ -1,13 +1,17 @@
 /* ---------- 1. Tabs on the sub pages ---------- */
 
 const tabs = document.getElementsByClassName("tab");
+const sections = document.getElementsByTagName("section");
+
+// true for a short moment after a tab was clicked
+let ignoreScroll = false;
 
 function markTab(target) {
     for (let i = 0; i < tabs.length; i++) {
         if (tabs[i].getAttribute("href") === target) {
-            tabs[i].classList.add("active");        
+            tabs[i].classList.add("active");
         } else {
-            tabs[i].classList.remove("active");     
+            tabs[i].classList.remove("active");
         }
     }
 }
@@ -15,6 +19,13 @@ function markTab(target) {
 for (let i = 0; i < tabs.length; i++) {
     tabs[i].addEventListener("click", function () {
         markTab(tabs[i].getAttribute("href"));
+
+        // clicking jumps to the section, which also counts as scrolling.
+        // during that moment the scroll handler must not overrule my choice
+        ignoreScroll = true;
+        setTimeout(function () {
+            ignoreScroll = false;
+        }, 700);
     });
 }
 
@@ -22,25 +33,31 @@ if (window.location.hash !== "") {
     markTab(window.location.hash);
 }
 
-/* while scrolling, the tab of the section that is currently under the bars becomes active */
-const sections = document.getElementsByTagName("section");
-
 function markTabOnScroll() {
-    // start with the first section, so the first tab stays active at the top of the page
+    if (ignoreScroll === true) {
+        return;
+    }
+
+    // how far down the page I am: 0 at the top, 1 at the bottom
+    const maxScroll = document.body.scrollHeight - window.innerHeight;
+    let progress = 0;
+
+    if (maxScroll > 0) {
+        progress = window.scrollY / maxScroll;
+    }
+
+    // the reading line starts right under the bars and moves down towards the end of
+    // the page. Without this my last section would never reach the line, because the
+    // page stops scrolling before that
+    const line = 150 + (window.innerHeight - 150) * progress;
+
+    // the first tab stays active as long as no section has passed the line
     let active = "#" + sections[0].id;
 
     for (let i = 0; i < sections.length; i++) {
-        // getBoundingClientRect().top = distance from the top of the window to the section
-        // 150px is roughly the height of the navbar plus the tab bar
-        if (sections[i].getBoundingClientRect().top < 150) {
+        if (sections[i].getBoundingClientRect().top < line) {
             active = "#" + sections[i].id;
         }
-    }
-
-    // the last section can be too short to ever reach the bars,
-    // so when the page is scrolled to the very bottom it always wins
-    if (window.innerHeight + window.scrollY >= document.body.scrollHeight - 2) {
-        active = "#" + sections[sections.length - 1].id;
     }
 
     markTab(active);

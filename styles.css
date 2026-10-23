@@ -862,6 +862,19 @@ section {
     transition: opacity 0.2s;             
 }
 
+/* the tool tiles now show the original logos, so the square is white and the logo fills it */
+.glyph.logo {
+    background-color: #ffffff;
+    border: 1px solid var(--line);
+    overflow: hidden;
+}
+
+.glyph.logo img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
 /* A bigger version in the pop up */
 .glyph.large {
     width: 52px;

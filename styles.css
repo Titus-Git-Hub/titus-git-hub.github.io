@@ -1228,15 +1228,6 @@ section {
     font-size: 0.95rem;
 }
 
-/* the hover effect, turning blue and getting bigger */
-.place:hover .place-circle,
-.place:focus .place-circle {
-    transform: scale(1.13);
-    background-color: var(--blue);
-    color: #ffffff;
-}
-
-
 /* ---------- Me in the middle ---------- */
 
 .me {

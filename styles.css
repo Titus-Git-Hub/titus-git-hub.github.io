@@ -1191,11 +1191,24 @@ section {
     margin: 0 auto;
     border-radius: 50%;
     border: 3px solid #ffffff;
-    background-color: var(--fill);
-    font-size: 0.95rem;
-    color: var(--text-secondary);
+    padding: 6px;
+    background-color: #ffffff;
     box-shadow: 0 4px 12px -3px rgba(0, 0, 0, 0.32);
-    transition: transform 0.26s, background-color 0.22s, color 0.22s;
+    transition: transform 0.26s, box-shadow 0.22s;
+}
+
+/* the logo sits in the middle of the circle, the padding above keeps it off the edge */
+.place-circle img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+/* on hover the circle grows and gets a thin blue ring around it */
+.place:hover .place-circle,
+.place:focus .place-circle {
+    transform: scale(1.13);
+    box-shadow: 0 0 0 2px var(--blue), 0 4px 12px -3px rgba(0, 0, 0, 0.32);
 }
 
 /* "[CITY]" small on top of the name */
